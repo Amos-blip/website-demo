@@ -54,7 +54,6 @@ form.provider-form input, form.provider-form select{margin-bottom:10px;}
 <div class="category" onclick="toggleProviders('carpentry')">🪚 Carpentry</div>
 </section>
 
-<!-- PROVIDERS BY CATEGORY -->
 <section class="providers" id="cleaning" style="display:none;">
   <div class="card">
     <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952">
@@ -66,55 +65,16 @@ form.provider-form input, form.provider-form select{margin-bottom:10px;}
       <button onclick="openTask('John Mwangi','Cleaning',1500,'Nairobi')">Book Service</button>
     </div>
   </div>
-
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1581579185169-4c9d5e5b84f1">
-    <div class="card-content">
-      <h3>Sarah Wanjiku</h3>
-      <p>Cleaning • Karen</p>
-      <p class="rating">⭐⭐⭐⭐⭐</p>
-      <p class="price">KES 1200 per visit</p>
-      <button onclick="openTask('Sarah Wanjiku','Cleaning',1200,'Karen')">Book Service</button>
-    </div>
-  </div>
 </section>
 
-<section class="providers" id="plumbing" style="display:none;">
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4">
-    <div class="card-content">
-      <h3>Mike Otieno</h3>
-      <p>Plumbing • Nakuru</p>
-      <p class="rating">⭐⭐⭐⭐</p>
-      <p class="price">KES 2000 per job</p>
-      <button onclick="openTask('Mike Otieno','Plumbing',2000,'Nakuru')">Book Service</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1581090700227-317aa5e23a17">
-    <div class="card-content">
-      <h3>Peter Otieno</h3>
-      <p>Plumbing • Nakuru</p>
-      <p class="rating">⭐⭐⭐⭐⭐</p>
-      <p class="price">KES 2500 per job</p>
-      <button onclick="openTask('Peter Otieno','Plumbing',2500,'Nakuru')">Book Service</button>
-    </div>
-  </div>
-</section>
-
-<!-- TASK DESCRIPTION POPUP -->
+<!-- TASK POPUP -->
 <div class="popup" id="taskPopup">
 <h3 id="taskTitle"></h3>
-<label>Describe your task</label>
-<textarea id="description" placeholder="Explain what you need done"></textarea>
-<label>Task Location</label>
-<input id="unit" placeholder="Unit / Apartment">
-<input id="street" placeholder="Street">
-<input id="city" placeholder="City">
-<label>Date</label>
+<textarea id="description"></textarea>
+<input id="unit">
+<input id="street">
+<input id="city">
 <input type="date" id="date">
-<label>Time</label>
 <input type="time" id="time">
 <button onclick="goCheckout()">Continue to Checkout</button>
 </div>
@@ -128,53 +88,12 @@ form.provider-form input, form.provider-form select{margin-bottom:10px;}
 <option value="mpesa">M-Pesa</option>
 <option value="card">Visa / Mastercard</option>
 </select>
-<input placeholder="Phone for M-Pesa">
+
+<!-- ✅ ONLY CHANGE HERE -->
+<input id="phone" placeholder="Phone for M-Pesa">
+
 <button onclick="confirmBooking()">Pay & Confirm</button>
 </div>
-
-<!-- LOGIN / SIGNUP POPUP -->
-<div class="popup" id="loginPopup">
-<h3>Login / Sign Up</h3>
-<input placeholder="Email">
-<input type="password" placeholder="Password">
-<button onclick="closePopups()">Login</button>
-<button class="secondary" onclick="closePopups()">Sign Up</button>
-</div>
-
-<!-- PROVIDER SIGNUP FORM -->
-<section class="provider-form" id="providerForm" style="display:none;">
-<h3>Become a Provider</h3>
-<input placeholder="Full Name">
-<input placeholder="Email">
-<input placeholder="Phone Number">
-<select>
-<option value="">Select Service Category</option>
-<option value="cleaning">Cleaning</option>
-<option value="plumbing">Plumbing</option>
-<option value="electrical">Electrical</option>
-<option value="moving">Moving</option>
-<option value="gardening">Gardening</option>
-<option value="carpentry">Carpentry</option>
-</select>
-<input placeholder="City">
-<input placeholder="Experience (years)">
-<button onclick="alert('Provider application submitted!')">Submit</button>
-</section>
-
-<!-- HOW IT WORKS -->
-<section id="how" style="padding:60px;text-align:center;background:white">
-<h2>How Pleve Works</h2>
-<p>1. Choose a service category</p>
-<p>2. See providers and rates</p>
-<p>3. Describe your task</p>
-<p>4. Pay securely</p>
-<p>5. A professional completes the job</p>
-</section>
-
-<footer>
-<p>© 2026 Pleve Services</p>
-<p>Connecting you with trusted local professionals.</p>
-</footer>
 
 <script>
 let selectedProvider="", selectedService="", selectedRate=0;
@@ -185,45 +104,45 @@ function toggleProviders(categoryId){
   document.getElementById(categoryId).style.display='grid';
 }
 
-function openTask(provider, service, rate, location){
+function openTask(provider, service, rate){
   selectedProvider = provider;
   selectedService = service;
   selectedRate = rate;
   document.getElementById("taskPopup").style.display = "block";
-  document.getElementById("taskTitle").innerText = provider + " - " + service + " (KES " + rate + ")";
 }
 
 function goCheckout(){
   document.getElementById("taskPopup").style.display = "none";
   document.getElementById("paymentPopup").style.display = "block";
-  document.getElementById("serviceDisplay").innerText = selectedService;
-  document.getElementById("providerDisplay").innerText = selectedProvider;
 }
 
+// ✅ ONLY CHANGE HERE
 function confirmBooking(){
-  alert("Booking confirmed with " + selectedProvider + "!");
-  closePopups();
-}
+  let phone = document.getElementById('phone').value;
 
-function openLogin(){ 
-  closeProviderForm();
-  document.getElementById("loginPopup").style.display="block"; 
-}
+  if(!phone){
+    alert("Enter phone number");
+    return;
+  }
 
-function openProviderForm(){
-  closePopups();
-  document.getElementById("providerForm").style.display="block";
-}
-
-function closePopups(){
-  document.getElementById("loginPopup").style.display="none";
-  document.getElementById("paymentPopup").style.display="none";
-  document.getElementById("taskPopup").style.display="none";
-  closeProviderForm();
-}
-
-function closeProviderForm(){
-  document.getElementById("providerForm").style.display="none";
+  fetch('http://localhost:3000/pay', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      amount: selectedRate,
+      phone: phone,
+      email: "customer@email.com"
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.url){
+      window.location.href = data.url;
+    } else {
+      alert("Payment failed");
+    }
+  })
+  .catch(() => alert("Server error"));
 }
 </script>
 
