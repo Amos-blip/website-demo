@@ -1,97 +1,230 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pleve</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pleve Services</title>
 
 <style>
-body{font-family:Arial,sans-serif;margin:0;background:#f5f7fb;}
-.header{display:flex;justify-content:space-between;align-items:center;padding:15px 40px;background:white;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
+  body{font-family:Arial;margin:0;background:#f5f7fb;}
+header{background:white;padding:15px 40px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
 .logo{font-weight:bold;font-size:22px;color:#27ae60;}
-.nav a{margin-left:15px;cursor:pointer;color:#333;text-decoration:none;}
-
+nav a{margin-left:20px;text-decoration:none;color:#333;cursor:pointer;}
 .hero{text-align:center;padding:80px 20px;background:linear-gradient(120deg,#27ae60,#2ecc71);color:white;}
-.section-title{text-align:center;padding:40px 0 20px 0;font-size:24px;}
-
-.categories{padding:0 40px 40px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;}
+.categories{padding:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;}
 .category{background:white;padding:25px;text-align:center;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);cursor:pointer;}
 .category:hover{transform:translateY(-4px);}
-
-.providers{padding:10px 40px 40px 40px;display:none;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+.providers{padding:10px 40px 40px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
 .card{background:white;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.1);overflow:hidden;}
 .card img{width:100%;height:180px;object-fit:cover;}
 .card-content{padding:15px;}
-
+.rating{color:#f1c40f;}
+.price{font-weight:bold;color:#27ae60;}
 button{width:100%;padding:10px;border:none;background:#27ae60;color:white;border-radius:5px;margin-top:10px;cursor:pointer;}
-.popup{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;width:320px;border-radius:10px;z-index:999;}
-.popup input,.popup textarea{width:100%;margin:6px 0;padding:8px;}
+button.secondary{background:#333;}
+.popup{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:30px;border-radius:10px;width:350px;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:100;}
+.popup input,.popup textarea,.popup select{width:100%;padding:8px;margin:6px 0;border:1px solid #ccc;border-radius:5px;}
+footer{background:#111;color:white;padding:40px;text-align:center;}
+.section-title{text-align:center;padding-top:20px;}
+form.provider-form{background:white;padding:20px;border-radius:10px;max-width:500px;margin:40px auto;box-shadow:0 6px 18px rgba(0,0,0,0.1);}
+form.provider-form input, form.provider-form select{margin-bottom:10px;}
 </style>
-
 </head>
 <body>
 
-<div class="header">
-  <div class="logo">Pleve</div>
-  <div class="nav">
-    <a onclick="redirectGoogle()">Login</a>
-    <a onclick="openSignup()">Become a Member</a>
-  </div>
-</div>
+<header>
+<div class="logo">Pleve</div>
+<nav>
+<a onclick="openProviderForm()">Become a Provider</a>
+<a onclick="openLogin()">Login / Sign Up</a>
+</nav>
+</header>
 
 <section class="hero">
-  <h1>Find Trusted Local Professionals</h1>
-  <p>See providers and rates before describing your task</p>
+<h1>Find Trusted Local Professionals</h1>
+<p>See providers and rates before describing your task</p>
 </section>
 
 <h2 class="section-title">Popular Service Categories</h2>
+<section class="categories">
+<div class="category" onclick="toggleProviders('cleaning')">🧹 Cleaning</div>
+<div class="category" onclick="toggleProviders('plumbing')">🔧 Plumbing</div>
+<div class="category" onclick="toggleProviders('electrical')">💡 Electrical</div>
+<div class="category" onclick="toggleProviders('moving')">🚚 Moving</div>
+<div class="category" onclick="toggleProviders('gardening')">🌿 Gardening</div>
+<div class="category" onclick="toggleProviders('carpentry')">🪚 Carpentry</div>
+</section>
 
-<div class="categories">
-  <div class="category" onclick="showCategory('cleaning')">🧹 Cleaning</div>
-  <div class="category" onclick="showCategory('plumbing')">🔧 Plumbing</div>
-  <div class="category" onclick="showCategory('electrical')">💡 Electrical</div>
-</div>
-
-<div id="cleaning" class="providers">
+<!-- PROVIDERS BY CATEGORY -->
+<section class="providers" id="cleaning" style="display:none;">
   <div class="card">
     <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952">
     <div class="card-content">
       <h3>John Mwangi</h3>
-      <button onclick="openTask('John Mwangi','Cleaning',1500)">Book Service</button>
+      <p>Cleaning • Nairobi</p>
+      <p class="rating">⭐⭐⭐⭐⭐</p>
+      <p class="price">KES 1500 per visit</p>
+      <button onclick="openTask('John Mwangi','Cleaning',1500,'Nairobi')">Book Service</button>
     </div>
   </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1581579185169-4c9d5e5b84f1">
+    <div class="card-content">
+      <h3>Sarah Wanjiku</h3>
+      <p>Cleaning • Karen</p>
+      <p class="rating">⭐⭐⭐⭐⭐</p>
+      <p class="price">KES 1200 per visit</p>
+      <button onclick="openTask('Sarah Wanjiku','Cleaning',1200,'Karen')">Book Service</button>
+    </div>
+  </div>
+</section>
+
+<section class="providers" id="plumbing" style="display:none;">
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4">
+    <div class="card-content">
+      <h3>Mike Otieno</h3>
+      <p>Plumbing • Nakuru</p>
+      <p class="rating">⭐⭐⭐⭐</p>
+      <p class="price">KES 2000 per job</p>
+      <button onclick="openTask('Mike Otieno','Plumbing',2000,'Nakuru')">Book Service</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1581090700227-317aa5e23a17">
+    <div class="card-content">
+      <h3>Peter Otieno</h3>
+      <p>Plumbing • Nakuru</p>
+      <p class="rating">⭐⭐⭐⭐⭐</p>
+      <p class="price">KES 2500 per job</p>
+      <button onclick="openTask('Peter Otieno','Plumbing',2500,'Nakuru')">Book Service</button>
+    </div>
+  </div>
+</section>
+
+<!-- TASK DESCRIPTION POPUP -->
+<div class="popup" id="taskPopup">
+<h3 id="taskTitle"></h3>
+<label>Describe your task</label>
+<textarea id="description" placeholder="Explain what you need done"></textarea>
+<label>Task Location</label>
+<input id="unit" placeholder="Unit / Apartment">
+<input id="street" placeholder="Street">
+<input id="city" placeholder="City">
+<label>Date</label>
+<input type="date" id="date">
+<label>Time</label>
+<input type="time" id="time">
+<button onclick="goCheckout()">Continue to Checkout</button>
 </div>
 
-<div id="taskPopup" class="popup">
-  <h3 id="taskTitle"></h3>
-  <textarea id="desc" placeholder="Describe your task"></textarea>
-  <input id="location" placeholder="Enter your location">
-  <button onclick="goCheckout()">Continue</button>
+<!-- PAYMENT POPUP -->
+<div class="popup" id="paymentPopup">
+<h3>Checkout</h3>
+<p><b>Service:</b> <span id="serviceDisplay"></span></p>
+<p><b>Provider:</b> <span id="providerDisplay"></span></p>
+<select id="paymentMethod">
+<option value="mpesa">M-Pesa</option>
+<option value="card">Visa / Mastercard</option>
+</select>
+<input placeholder="Phone for M-Pesa">
+<button onclick="confirmBooking()">Pay & Confirm</button>
 </div>
+
+<!-- LOGIN / SIGNUP POPUP -->
+<div class="popup" id="loginPopup">
+<h3>Login / Sign Up</h3>
+<input placeholder="Email">
+<input type="password" placeholder="Password">
+<button onclick="closePopups()">Login</button>
+<button class="secondary" onclick="closePopups()">Sign Up</button>
+</div>
+
+<!-- PROVIDER SIGNUP FORM -->
+<section class="provider-form" id="providerForm" style="display:none;">
+<h3>Become a Provider</h3>
+<input placeholder="Full Name">
+<input placeholder="Email">
+<input placeholder="Phone Number">
+<select>
+<option value="">Select Service Category</option>
+<option value="cleaning">Cleaning</option>
+<option value="plumbing">Plumbing</option>
+<option value="electrical">Electrical</option>
+<option value="moving">Moving</option>
+<option value="gardening">Gardening</option>
+<option value="carpentry">Carpentry</option>
+</select>
+<input placeholder="City">
+<input placeholder="Experience (years)">
+<button onclick="alert('Provider application submitted!')">Submit</button>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" style="padding:60px;text-align:center;background:white">
+<h2>How Pleve Works</h2>
+<p>1. Choose a service category</p>
+<p>2. See providers and rates</p>
+<p>3. Describe your task</p>
+<p>4. Pay securely</p>
+<p>5. A professional completes the job</p>
+</section>
+
+<footer>
+<p>© 2026 Pleve Services</p>
+<p>Connecting you with trusted local professionals.</p>
+</footer>
 
 <script>
-let provider="", service="", price=0;
+let selectedProvider="", selectedService="", selectedRate=0;
 
-function showCategory(id){
-  document.querySelectorAll('.providers').forEach(e=>e.style.display='none');
-  document.getElementById(id).style.display='grid';
+function toggleProviders(categoryId){
+  let sections=document.querySelectorAll('.providers');
+  sections.forEach(sec => sec.style.display='none');
+  document.getElementById(categoryId).style.display='grid';
 }
 
-function openTask(p,s,pr){
-  provider=p; service=s; price=pr;
-  document.getElementById("taskTitle").innerText=p+" - "+s;
-  document.getElementById("taskPopup").style.display="block";
+function openTask(provider, service, rate, location){
+  selectedProvider = provider;
+  selectedService = service;
+  selectedRate = rate;
+  document.getElementById("taskPopup").style.display = "block";
+  document.getElementById("taskTitle").innerText = provider + " - " + service + " (KES " + rate + ")";
 }
 
 function goCheckout(){
-  alert("Proceeding to checkout...");
+  document.getElementById("taskPopup").style.display = "none";
+  document.getElementById("paymentPopup").style.display = "block";
+  document.getElementById("serviceDisplay").innerText = selectedService;
+  document.getElementById("providerDisplay").innerText = selectedProvider;
 }
 
-function redirectGoogle(){
-  window.location.href="https://accounts.google.com";
+function confirmBooking(){
+  alert("Booking confirmed with " + selectedProvider + "!");
+  closePopups();
 }
 
-function openSignup(){
-  alert("Signup coming soon!");
+function openLogin(){ 
+  closeProviderForm();
+  document.getElementById("loginPopup").style.display="block"; 
+}
+
+function openProviderForm(){
+  closePopups();
+  document.getElementById("providerForm").style.display="block";
+}
+
+function closePopups(){
+  document.getElementById("loginPopup").style.display="none";
+  document.getElementById("paymentPopup").style.display="none";
+  document.getElementById("taskPopup").style.display="none";
+  closeProviderForm();
+}
+
+function closeProviderForm(){
+  document.getElementById("providerForm").style.display="none";
 }
 </script>
 
